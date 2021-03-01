@@ -4,8 +4,8 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form Form1 
    Caption         =   "Form1"
    ClientHeight    =   3660
-   ClientLeft      =   5880
-   ClientTop       =   4575
+   ClientLeft      =   5685
+   ClientTop       =   6900
    ClientWidth     =   5550
    LinkTopic       =   "Form1"
    ScaleHeight     =   3660
@@ -125,15 +125,17 @@ Private Type Person
     Age As Integer
 End Type
 
-user As Person
+Dim user As Person
 
 Private Sub Form_Load()
     user.Name = "Mohammed"
     user.Age = 19
-    Static arr(3 To 5) As Integer
-    For i = 3 To 5
+    Static arr(5) As Integer
+    For i = 0 To 5
+        arr(i) = i
         Combo1.AddItem arr(i)
     Next i
+    FrmFiles.Show
 End Sub
 
 Private Sub Form_MouseMove(btn As Integer, shift As Integer, x As Single, y As Single)
@@ -148,7 +150,7 @@ Private Sub Combo1_LostFocus()
     End If
 End Sub
 
-Private Function Cbo1Contains(item As String)
+Private Function Cbo1Contains(item As String) As Boolean
     Dim exists As Boolean
     For i = 0 To Combo1.ListCount - 1
         If Combo1.List(i) = item Then
@@ -172,7 +174,7 @@ Private Sub Label1_DblClick()
     msg = IIf(inp < 10, 1, 0)
     Select Case msg
         Case Is = 1
-            MsgBox "Good prediction!"
+            MsgBox "Good prediction!" & Format(inp, "Standard")
         Case Is = 0
             MsgBox "Try again!"
         Case 3 To 5
