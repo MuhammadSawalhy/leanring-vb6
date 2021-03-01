@@ -135,7 +135,6 @@ Private Sub Form_Load()
         arr(i) = i
         Combo1.AddItem arr(i)
     Next i
-    FrmFiles.Show
 End Sub
 
 Private Sub Form_MouseMove(btn As Integer, shift As Integer, x As Single, y As Single)
@@ -163,6 +162,8 @@ End Function
 Private Sub Command1_Click()
     ' Label2.Caption = Time & vbCrLf & Date
     Label2.Caption = CStr(Time) & vbCrLf & CStr(Date)
+    MsgBox "Width: " & Me.Width & ", " & Me.ScaleWidth
+    MsgBox "Height: " & Me.Height & ", " & Me.ScaleHeight
 End Sub
 
 Private Sub Command2_Click()

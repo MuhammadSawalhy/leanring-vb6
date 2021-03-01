@@ -5,15 +5,32 @@ Begin VB.Form FrmFiles
    ClientHeight    =   6090
    ClientLeft      =   6075
    ClientTop       =   2730
-   ClientWidth     =   6795
+   ClientWidth     =   9465
    LinkTopic       =   "Form2"
    ScaleHeight     =   6090
-   ScaleWidth      =   6795
+   ScaleWidth      =   9465
+   Begin VB.CommandButton Command6 
+      Caption         =   "Read"
+      Height          =   615
+      Left            =   6480
+      TabIndex        =   15
+      Top             =   3600
+      Width           =   2535
+   End
+   Begin VB.TextBox Text4 
+      Height          =   2295
+      Left            =   6480
+      MultiLine       =   -1  'True
+      TabIndex        =   14
+      Text            =   "FrmFiles.frx":0000
+      Top             =   960
+      Width           =   2535
+   End
    Begin VB.TextBox Text3 
       Height          =   285
       Left            =   4200
       TabIndex        =   13
-      Text            =   "Text1"
+      Text            =   "19"
       Top             =   3240
       Width           =   1455
    End
@@ -36,7 +53,7 @@ Begin VB.Form FrmFiles
       Height          =   285
       Left            =   840
       TabIndex        =   10
-      Text            =   "Text1"
+      Text            =   "Eng."
       Top             =   3240
       Width           =   1455
    End
@@ -82,7 +99,7 @@ Begin VB.Form FrmFiles
       Height          =   285
       Left            =   2520
       TabIndex        =   2
-      Text            =   "Text1"
+      Text            =   "Mohammed"
       Top             =   3240
       Width           =   1455
    End
@@ -100,6 +117,13 @@ Begin VB.Form FrmFiles
       TabIndex        =   0
       Top             =   3720
       Width           =   1455
+   End
+   Begin VB.Line Line1 
+      BorderStyle     =   3  'Dot
+      X1              =   6480
+      X2              =   6480
+      Y1              =   1560
+      Y2              =   5880
    End
    Begin VB.Label Label3 
       AutoSize        =   -1  'True
@@ -136,7 +160,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Type Person
     Name As String
-    Title As String
+    Title As String * 5
     Age As Integer
 End Type
 
@@ -153,27 +177,42 @@ Private Sub Command3_Click()
 End Sub
 
 Private Sub Command4_Click()
+    Dim per As Person
+    MsgBox Len(per)
     CommonDialog1.ShowSave
-    Open CommonDialog1.FileName For Random As #1
-        For i = 0 To List1.ListCount
-            Dim per As Person
+    Open CommonDialog1.FileName For Random As #1 Len = Len(per)
+        For i = 0 To List1.ListCount - 1
             per.Title = List1.List(i)
             per.Name = List2.List(i)
             per.Age = Val(List3.List(i))
-            Put #1, , per
+            Put #1, i, per
         Next i
     Close #1
 End Sub
 
 Private Sub Command5_Click()
+    Dim per As Person
     CommonDialog1.ShowOpen
-    Open CommonDialog1.FileName For Random As #1
+    Open CommonDialog1.FileName For Random As #1 Len = Len(per)
         While (Not EOF(1))
-            Dim per As Person
             Get #1, , per
             List1.AddItem per.Title
             List2.AddItem per.Name
             List3.AddItem per.Age
         Wend
     Close #1
+End Sub
+
+Private Sub Command6_Click()
+    Dim readed As String
+    CommonDialog1.ShowOpen
+    Open CommonDialog1.FileName For Input As #1
+        Line Input #1, k
+        If readed = "" Then
+            readed = k
+        Else
+            readed = readed & vbCrLf & k
+        End If
+    Close #1
+    Text4.Text = readed
 End Sub
